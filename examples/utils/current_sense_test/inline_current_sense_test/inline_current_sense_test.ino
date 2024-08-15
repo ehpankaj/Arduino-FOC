@@ -11,22 +11,13 @@ InlineCurrentSense current_sense = InlineCurrentSense(0.01f, 50.0f, A0, A2);
 
 
 void setup() {
-
-  // use monitoring with serial 
-  Serial.begin(115200);
-  // enable more verbose output for debugging
-  // comment out if not needed
-  SimpleFOCDebug::enable(&Serial);
-
   // initialise the current sensing
-  if(!current_sense.init()){
-    Serial.println("Current sense init failed.");
-    return;
-  }
+  current_sense.init();
 
   // for SimpleFOCShield v2.01/v2.0.2
   current_sense.gain_b *= -1;
   
+  Serial.begin(115200);
   Serial.println("Current sense ready.");
 }
 

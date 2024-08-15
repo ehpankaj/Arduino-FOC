@@ -42,9 +42,6 @@ void doTarget(char* cmd) { command.scalar(&target_angle, cmd); }
 
 void setup() {
 
-  // use monitoring with serial 
-  Serial.begin(115200);
-  
   // initialise encoder hardware
   encoder.init();
   // interrupt initialization
@@ -88,6 +85,9 @@ void setup() {
   //  maximal velocity of the position control
   motor.velocity_limit = 4;
 
+
+  // use monitoring with serial
+  Serial.begin(115200);
   // comment out if not needed
   motor.useMonitoring(Serial);
 

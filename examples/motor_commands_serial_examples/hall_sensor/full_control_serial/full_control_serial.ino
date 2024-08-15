@@ -41,12 +41,6 @@ void onMotor(char* cmd){ command.motor(&motor, cmd); }
 
 void setup() {
 
-  // use monitoring with serial 
-  Serial.begin(115200);
-  // enable more verbose output for debugging
-  // comment out if not needed
-  SimpleFOCDebug::enable(&Serial);
-
   // initialize encoder sensor hardware
   sensor.init();
   sensor.enableInterrupts(doA, doB); //, doC);
@@ -82,6 +76,9 @@ void setup() {
   // angle loop velocity limit
   motor.velocity_limit = 50;
 
+  // use monitoring with serial for motor init
+  // monitoring port
+  Serial.begin(115200);
   // comment out if not needed
   motor.useMonitoring(Serial);
 

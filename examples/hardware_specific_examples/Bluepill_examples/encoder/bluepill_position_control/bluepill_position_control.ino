@@ -33,12 +33,6 @@ void doTarget(char* cmd) { command.scalar(&target_angle, cmd); }
 
 void setup() {
 
-  // use monitoring with serial 
-  Serial.begin(115200);
-  // enable more verbose output for debugging
-  // comment out if not needed
-  SimpleFOCDebug::enable(&Serial);
-
   // initialize encoder sensor hardware
   encoder.init();
   encoder.enableInterrupts(doA, doB, doI);
@@ -81,6 +75,8 @@ void setup() {
   motor.velocity_limit = 4;
 
 
+  // use monitoring with serial
+  Serial.begin(115200);
   // comment out if not needed
   motor.useMonitoring(Serial);
 

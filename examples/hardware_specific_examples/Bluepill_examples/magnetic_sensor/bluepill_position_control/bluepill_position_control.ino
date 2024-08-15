@@ -36,12 +36,6 @@ void doTarget(char* cmd) { command.scalar(&target_angle, cmd); }
 
 void setup() {
 
-  // use monitoring with serial 
-  Serial.begin(115200);
-  // enable more verbose output for debugging
-  // comment out if not needed
-  SimpleFOCDebug::enable(&Serial);
-
   // initialise magnetic sensor hardware
   sensor.init();
   // link the motor to the sensor
@@ -78,6 +72,8 @@ void setup() {
   // maximal velocity of the position control
   motor.velocity_limit = 40;
 
+  // use monitoring with serial
+  Serial.begin(115200);
   // comment out if not needed
   motor.useMonitoring(Serial);
 

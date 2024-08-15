@@ -31,14 +31,6 @@ GenericCurrentSense current_sense = GenericCurrentSense(readCurrentSense, initCu
 
 
 void setup() {
-
-  // use monitoring with serial 
-  Serial.begin(115200);
-  // enable more verbose output for debugging
-  // comment out if not needed
-  SimpleFOCDebug::enable(&Serial);
-
-  
   // if callbacks are not provided in the constructor 
   // they can be assigned directly: 
   //current_sense.readCallback = readCurrentSense;
@@ -48,6 +40,7 @@ void setup() {
   current_sense.init();
 
   
+  Serial.begin(115200);
   Serial.println("Current sense ready.");
 }
 

@@ -43,7 +43,7 @@ class StepperMotor: public FOCMotor
     StepperDriver* driver; 
 
     /**  Motor hardware init function */
-  	int init() override;
+  	void init() override;
     /** Motor disable function */
   	void disable() override;
     /** Motor enable function */
@@ -73,6 +73,8 @@ class StepperMotor: public FOCMotor
      */
     void move(float target = NOT_SET) override;
     
+    float	Ualpha,Ubeta; //!< Phase voltages U alpha and U beta used for inverse Park and Clarke transform
+
   /**
     * Method using FOC to set Uq to the motor at the optimal angle
     * Heart of the FOC algorithm
@@ -89,8 +91,6 @@ class StepperMotor: public FOCMotor
     int alignSensor();
     /** Motor and sensor alignment to the sensors absolute 0 angle  */
     int absoluteZeroSearch();
-    /** Current sense and motor phase alignment */
-    int alignCurrentSense();
         
     // Open loop motion control    
     /**

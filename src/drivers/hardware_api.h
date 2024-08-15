@@ -25,6 +25,9 @@
 #define SIMPLEFOC_PWM_LOWSIDE_ACTIVE_HIGH true
 #endif
 
+
+
+
 // flag returned if driver init fails
 #define SIMPLEFOC_DRIVER_INIT_FAILED ((void*)-1)
 

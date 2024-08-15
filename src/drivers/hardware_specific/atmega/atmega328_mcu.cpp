@@ -53,8 +53,7 @@ void* _configure1PWM(long pwm_frequency,const int pinA) {
   _pinHighFrequency(pinA, pwm_frequency);
   GenericDriverParams* params = new GenericDriverParams {
     .pins = { pinA },
-    .pwm_frequency = pwm_frequency,
-    .dead_zone = 0.0f
+    .pwm_frequency = pwm_frequency
   };
   return params;
 }
@@ -71,8 +70,7 @@ void* _configure2PWM(long pwm_frequency,const int pinA, const int pinB) {
   _pinHighFrequency(pinB, pwm_frequency);
   GenericDriverParams* params = new GenericDriverParams {
     .pins = { pinA, pinB },
-    .pwm_frequency = pwm_frequency,
-    .dead_zone = 0.0f
+    .pwm_frequency = pwm_frequency
   };
   return params;
 }
@@ -91,8 +89,7 @@ void* _configure3PWM(long pwm_frequency,const int pinA, const int pinB, const in
   _pinHighFrequency(pinC, pwm_frequency);
   GenericDriverParams* params = new GenericDriverParams {
     .pins = { pinA, pinB, pinC },
-    .pwm_frequency = pwm_frequency,
-    .dead_zone = 0.0f
+    .pwm_frequency = pwm_frequency
   };
   _syncAllTimers();
   return params;
@@ -144,8 +141,7 @@ void* _configure4PWM(long pwm_frequency,const int pin1A, const int pin1B, const 
   _pinHighFrequency(pin2B,pwm_frequency);
   GenericDriverParams* params = new GenericDriverParams {
     .pins = { pin1A, pin1B, pin2A, pin2B },
-    .pwm_frequency = pwm_frequency,
-    .dead_zone = 0.0f
+    .pwm_frequency = pwm_frequency
   };
   return params;
 }

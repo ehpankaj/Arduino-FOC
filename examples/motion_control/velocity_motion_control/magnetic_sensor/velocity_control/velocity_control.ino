@@ -33,12 +33,6 @@ void doTarget(char* cmd) { command.scalar(&target_velocity, cmd); }
 
 void setup() {
 
-  // use monitoring with serial 
-  Serial.begin(115200);
-  // enable more verbose output for debugging
-  // comment out if not needed
-  SimpleFOCDebug::enable(&Serial);
-
   // initialise magnetic sensor hardware
   sensor.init();
   // link the motor to the sensor
@@ -72,6 +66,8 @@ void setup() {
   // the lower the less filtered
   motor.LPF_velocity.Tf = 0.01f;
 
+  // use monitoring with serial
+  Serial.begin(115200);
   // comment out if not needed
   motor.useMonitoring(Serial);
 
