@@ -1,6 +1,8 @@
 #include "BLDCMotor.h"
 #include "./communication/SimpleFOCDebug.h"
 
+const float notch_positions[] = {0, M_PI / 6, M_PI / 3, M_PI / 2, 2 * M_PI / 3, 5 * M_PI / 6, M_PI, 7 * M_PI / 6, 4 * M_PI / 3, 3 * M_PI / 2, 5 * M_PI / 3, 11 * M_PI / 6};
+const int num_notches = sizeof(notch_positions) / sizeof(notch_positions[0]);
 
 // see https://www.youtube.com/watch?v=InzXA7mWBWE Slide 5
 // each is 60 degrees with values for 3 phases of 1=positive -1=negative 0=high-z
@@ -562,6 +564,42 @@ void BLDCMotor::move(float new_target)
     break;
   case MotionControlType::custom:
     // Custom mode logic for tactile feedback
+    const float snapping_threshold = 0.1;
+    const float damping_factor = 0.1;
+    float closest_notch = notch_positions[0];
+    float min_diff = fabs(shaft_angle - closest_notch);
+    for (int i = 1; i < num_notches; i++)
+    {
+      float diff = fabs(shaft_angle - notch_positions[i]);
+      if (diff < min_diff)
+      {
+        min_diff = diff;
+        closest_notch = notch_positions[i];
+      }
+    }
+
+    // Snap to the closest notch if within the threshold
+    if (min_diff < snapping_threshold)
+    {
+      target = closest_notch;
+    }
+
+    // Apply torque logic for tactile feedback
+    float torque = 0;
+    if (min_diff < snapping_threshold)
+    {
+      torque = (snapping_threshold - min_diff) * 20; // Adjust the multiplier for desired torque
+    }
+    else
+    {
+      torque = 0;
+    }
+
+    // Apply damping to provide resistance when moved
+    float damping = damping_factor * shaft_velocity;
+
+    voltage.q = _constrain(torque - damping, -voltage_limit, voltage_limit);
+    voltage.d = 0;
     break;
   }
 }

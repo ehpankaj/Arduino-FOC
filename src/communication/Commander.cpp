@@ -380,6 +380,9 @@ void Commander::motion(FOCMotor* motor, char* user_cmd, char* separator){
           if(!GET && value >= 0 && (int)value < 5) // if set command
             motor->controller = (MotionControlType)value;
           switch(motor->controller){
+            case MotionControlType::custom:
+              println(F("custom"));
+              break;
             case MotionControlType::torque:
               println(F("torque"));
               break;

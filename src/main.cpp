@@ -9,7 +9,8 @@ BLDCDriver3PWM driver = BLDCDriver3PWM(32, 25, 33);
 Commander command = Commander(Serial);
 void doTarget(char *cmd) { command.scalar(&motor.target, cmd); }
 void doLimit(char *cmd) { command.scalar(&motor.voltage_limit, cmd); }
-void doMotor(char *cmd) { command.motor(&motor, cmd); }
+void doD(char *cmd) { command.scalar(&motor.voltage.d, cmd); }
+void doQ(char *cmd) { command.scalar(&motor.voltage.q, cmd); }
 
 void setup()
 {
@@ -29,18 +30,18 @@ void setup()
         Serial.println("Driver init failed!");
         return;
     }
-    driver.voltage_power_supply = 8;
+    driver.voltage_power_supply = 6;
     driver.voltage_limit = 6;
     driver.pwm_frequency = 25000;
     motor.linkDriver(&driver);
     Serial.println("Driver ready!");
 
     // Initialise motor and the FOC algorithm
-    motor.voltage_limit = 3; // [V]
-    motor.velocity_limit = 12.56;
+    motor.voltage_limit = 6; // [V]
+    motor.velocity_limit = 1;
     motor.KV_rating = 80;
     motor.torque_controller = TorqueControlType::voltage;
-    motor.controller = MotionControlType::angle;
+    motor.controller = MotionControlType::custom;
     motor.init();
     if (!motor.initFOC())
     {
@@ -50,10 +51,11 @@ void setup()
     Serial.println("Motor ready!");
 
     // Set initial motor target
-    motor.target = 3;
+    motor.target = 0;
 
     // Add commander commands
-    command.add('m', doMotor, "Motor");
+    command.add('d', doD, "voltage d");
+    command.add('q', doQ, "voltage q");
     command.add('t', doTarget, "target velocity");
     command.add('l', doLimit, "voltage limit");
     _delay(500);
